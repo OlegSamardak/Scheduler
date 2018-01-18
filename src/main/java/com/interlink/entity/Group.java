@@ -1,19 +1,21 @@
 package com.interlink.entity;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-public class Group extends BaseEntity{
+@Table(name = "group")
+public class Group {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", nullable = false, unique = true, length = 11)
+    private int id;
     private String name;
-    private int course;
-    @ManyToOne
-    private Faculty faculty;
-    private boolean active;
+    @OneToOne
+    private Schedule schedule;
 }
+

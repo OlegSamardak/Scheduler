@@ -1,22 +1,19 @@
 package com.interlink.entity;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-public class Schedule extends BaseEntity{
-    @ManyToOne
-    private Subject subject;
-    @ManyToOne
-    private Teacher teacher;
-    @ManyToOne
+public class Schedule {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", nullable = false, unique = true, length = 11)
+    private int id;
+    @OneToOne
     private Group group;
-    private int day;
-    private int week;
+    private String calendarId;
 }
