@@ -28,14 +28,11 @@ public class GoogleAuthorizationService {
 
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
-    private final JsonFactory JSON_FACTORY =
-            JacksonFactory.getDefaultInstance();
+    private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private static HttpTransport HTTP_TRANSPORT;
 
-
-    private final List<String> SCOPES =
-            Arrays.asList(CalendarScopes.CALENDAR_READONLY);
+    private final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -48,13 +45,11 @@ public class GoogleAuthorizationService {
     }
 
     public Credential authorize() throws IOException {
-        // Load client secrets.
         InputStream in =
                 GoogleAuthorizationService.class.getResourceAsStream("/client_secret.json");
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
@@ -63,9 +58,7 @@ public class GoogleAuthorizationService {
                         .build();
         Credential credential = new AuthorizationCodeInstalledApp(
                 flow, new LocalServerReceiver()).authorize("user");
-        System.out.println(
-                "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+
         return credential;
     }
-
 }
