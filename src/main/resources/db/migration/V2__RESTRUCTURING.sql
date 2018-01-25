@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS `group`;
 DROP TABLE IF EXISTS  `admin`;
 DROP TABLE IF EXISTS  `attachment`;
 DROP TABLE IF EXISTS  `faculty`;
-DROP TABLE IF EXISTS  `lesson`;
+DROP TABLE IF EXISTS  `lessonDTO`;
 DROP TABLE IF EXISTS  `schedule`;
 DROP TABLE IF EXISTS  `secretary`;
 DROP TABLE IF EXISTS  `status`;
