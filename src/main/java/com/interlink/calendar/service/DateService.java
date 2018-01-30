@@ -3,6 +3,7 @@ package com.interlink.calendar.service;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.common.collect.Iterables;
+import com.interlink.calendar.exceptions.InvalidCountOfBreaks;
 import org.springframework.cglib.core.Local;
 
 import java.sql.Date;
@@ -22,9 +23,16 @@ public class DateService {
         return eventDateTime.setDate(dateTime);
     }
 
-    public static Map<LocalDateTime, LocalDateTime> getLessonInterim
-            (LocalDateTime firstLesson, int breakLesson, int lessonMinutesDuration) {
-        Map<LocalDateTime, LocalDateTime> lessonsInterim = new HashMap<>();
+    public Map<LocalDateTime, LocalDateTime> getLessonInterim
+            (LocalDateTime firstLesson, List<Integer> breaks, int lessonMinutesDuration)
+            throws InvalidCountOfBreaks {
+        if (breaks.size() >= LESSONS_COUNT) {
+            throw new InvalidCountOfBreaks(
+                    "Count of breaks cant be equal or larger than count of lessons. " +
+                            "Breaks : " + breaks.size() + "Lessons : " + LESSONS_COUNT);
+        }
+
+        Map<LocalDateTime, LocalDateTime> lessonsInterim = new TreeMap<>();
         List<LocalDateTime> lessonStarts = new ArrayList<>();
         List<LocalDateTime> lessonEnds = new ArrayList<>();
 
@@ -34,15 +42,15 @@ public class DateService {
             if (i == 0) {
                 lessonStart = firstLesson;
                 lessonEnd = lessonStart.plusMinutes(lessonMinutesDuration);
-                lessonStarts.add(lessonStart);
-                lessonEnds.add(lessonEnd);
             } else {
-                lessonStart = lessonEnds.get(i - 1).plusMinutes(breakLesson);
+                lessonStart = lessonEnds.get(i - 1).plusMinutes(breaks.get(i - 1));
                 lessonEnd = lessonStart.plusMinutes(lessonMinutesDuration);
-                lessonStarts.add(lessonStart);
-                lessonEnds.add(lessonEnd);
             }
+            lessonStarts.add(lessonStart);
+            lessonEnds.add(lessonEnd);
+            lessonsInterim.put(lessonStart, lessonEnd);
         }
+
         return lessonsInterim;
     }
 }
