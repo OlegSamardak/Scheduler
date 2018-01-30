@@ -14,7 +14,7 @@ public class DateService {
 
     private static final int LESSONS_COUNT = 8;
 
-    public EventDateTime getEventDateTime(LocalDateTime localDateTime) {
+    public static EventDateTime getEventDateTime(LocalDateTime localDateTime) {
         ZoneId zoneId = ZoneId.systemDefault();
 
         EventDateTime eventDateTime = new EventDateTime();
@@ -52,5 +52,18 @@ public class DateService {
         }
 
         return lessonsInterim;
+    }
+
+    public Map<EventDateTime, EventDateTime> getEventDateTimes
+            (Map<LocalDateTime, LocalDateTime> lessonsInterim) {
+        Map<EventDateTime, EventDateTime> eventsInterim = new TreeMap<>();
+
+        for (LocalDateTime startTime : lessonsInterim.keySet()) {
+            eventsInterim.put(
+                    getEventDateTime(startTime),
+                    getEventDateTime(lessonsInterim.get(startTime)));
+        }
+
+        return eventsInterim;
     }
 }
