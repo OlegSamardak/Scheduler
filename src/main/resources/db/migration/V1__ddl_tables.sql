@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS `faculty` (
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 
--- Дамп структуры для таблица scheduler.lesson
-CREATE TABLE IF NOT EXISTS `lesson` (
+-- Дамп структуры для таблица scheduler.lessonDTO
+CREATE TABLE IF NOT EXISTS `lessonDTO` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT NULL,
   `schedule_id` int(11) DEFAULT NULL,
@@ -63,9 +63,9 @@ CREATE TABLE IF NOT EXISTS `lesson` (
   CONSTRAINT `FKni07g89mm7l9g7k8vbu7lf5r` FOREIGN KEY (`schedule_id`) REFERENCES `schedule` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы scheduler.lesson: ~0 rows (приблизительно)
-/*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
-/*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
+-- Дамп данных таблицы scheduler.lessonDTO: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `lessonDTO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `lessonDTO` ENABLE KEYS */;
 
 -- Дамп структуры для таблица scheduler.schedule
 CREATE TABLE IF NOT EXISTS `schedule` (
