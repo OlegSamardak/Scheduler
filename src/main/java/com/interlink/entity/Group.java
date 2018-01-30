@@ -15,7 +15,5 @@ public class Group {
     @Column(name="id", nullable = false, unique = true, length = 11)
     private int id;
     private String name;
-    @OneToOne
-    private Schedule schedule;
 }
 
