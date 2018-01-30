@@ -11,6 +11,8 @@ import java.util.*;
 
 public class DateService {
 
+    private static final int LESSONS_COUNT = 8;
+
     public EventDateTime getEventDateTime(LocalDateTime localDateTime) {
         ZoneId zoneId = ZoneId.systemDefault();
 
@@ -20,31 +22,27 @@ public class DateService {
         return eventDateTime.setDate(dateTime);
     }
 
-    public Map<LocalDateTime, LocalDateTime> getLessonInterim
-            (LocalDate day, LocalTime firstLesson,
-             List<Integer> breaks, int lessonMinutesDuration) {
+    public static Map<LocalDateTime, LocalDateTime> getLessonInterim
+            (LocalDateTime firstLesson, int breakLesson, int lessonMinutesDuration) {
         Map<LocalDateTime, LocalDateTime> lessonsInterim = new HashMap<>();
+        List<LocalDateTime> lessonStarts = new ArrayList<>();
+        List<LocalDateTime> lessonEnds = new ArrayList<>();
 
-        for (int i = 0; i <= 8; i++) {
+        for (int i = 0; i <= LESSONS_COUNT - 1; i++) {
             LocalDateTime lessonStart;
             LocalDateTime lessonEnd;
             if (i == 0) {
-                lessonStart = LocalDateTime.of(day, firstLesson);
-                lessonEnd = lessonStart.plusMinutes(breaks.get(i));
-                lessonsInterim.put(lessonStart, lessonEnd);
+                lessonStart = firstLesson;
+                lessonEnd = lessonStart.plusMinutes(lessonMinutesDuration);
+                lessonStarts.add(lessonStart);
+                lessonEnds.add(lessonEnd);
             } else {
-                List<LocalDateTime> ends = new ArrayList<>(lessonsInterim.values());
-
-                lessonStart = LocalDateTime.of(
-                        day,
-                        ends.get(i - 1)
-                                .toLocalTime()
-                                .plusMinutes(breaks.get(i - 1)));
-                lessonEnd = lessonStart.plusMinutes(breaks.get(i));
-                lessonsInterim.put(lessonStart, lessonEnd);
+                lessonStart = lessonEnds.get(i - 1).plusMinutes(breakLesson);
+                lessonEnd = lessonStart.plusMinutes(lessonMinutesDuration);
+                lessonStarts.add(lessonStart);
+                lessonEnds.add(lessonEnd);
             }
         }
-
         return lessonsInterim;
     }
 }
