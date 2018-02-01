@@ -10,8 +10,8 @@ public class EventService {
             (Credential credential, LessonDto lessonDto) {
         com.google.api.services.calendar.model.Event lessonEvent
                 = new com.google.api.services.calendar.model.Event();
-        lessonEvent.setStart(new EventDateTime().setDateTime(lessonDto.getStart()));
-        lessonEvent.setEnd(new EventDateTime().setDateTime(lessonDto.getEnd()));
+        lessonEvent.setStart(lessonDto.getStart());
+        lessonEvent.setEnd(lessonDto.getEnd());
         lessonEvent.setSummary(lessonDto.getTeacherName());
         lessonEvent.setDescription(lessonDto.getTitle() + "lessonDto in " + lessonDto.getClassroom()
                 + " classroom" + "\n Teacher : " + lessonDto.getTeacherName());

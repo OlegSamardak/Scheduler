@@ -2,9 +2,7 @@ package com.interlink.calendar.service;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.google.common.collect.Iterables;
 import com.interlink.calendar.exceptions.InvalidCountOfBreaks;
-import org.springframework.cglib.core.Local;
 
 import java.sql.Date;
 import java.time.*;

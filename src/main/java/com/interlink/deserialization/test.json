@@ -1,0 +1,118 @@
+{
+  "group": "group",
+  "callschedule": {
+    "firstday": "dd/mm/yyyy",
+    "first_lesson": "hh:mm",
+    "break": [
+      {
+        "lesson": 1,
+        "duration": 10
+      },
+      {
+        "lesson": 2,
+        "duration": 20
+      },
+      {
+        "lesson": 3,
+        "duration": 15
+      },
+      {
+        "lesson": 4,
+        "duration": 10
+      },
+      {
+        "lesson": 5,
+        "duration": "20"
+      },
+      {
+        "lesson": 6,
+        "duration": "20"
+      },
+      {
+        "lesson": 7,
+        "duration": "15"
+      },
+      {
+        "lesson": 8,
+        "duration": "5"
+      }
+    ]
+  },
+  "template": [
+    [
+      [
+        {
+          "type": "practice",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Programming",
+          "classroom": "321"
+        },
+        {
+          "type": "lection",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "English",
+          "classroom": "321"
+        },
+        {
+          "type": "lection",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Java",
+          "classroom": "321"
+        },
+        {
+          "type": "practice",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "OOP",
+          "classroom": "321"
+        },
+        {
+          "type": "lection",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Programming",
+          "classroom": "321"
+        },
+        {
+          "type": "practice",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Programming",
+          "classroom": "321"
+        },
+        {
+          "type": "practice",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Programming",
+          "classroom": "321"
+        },
+        {
+          "type": "practice",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Programming",
+          "classroom": "321"
+        },
+        {
+          "type": "practice",
+          "teacher": "Petrenko Ivan Ivanovych",
+          "title": "Programming",
+          "classroom": "321"
+        }
+      ]
+    ]
+  ],
+  "lesson_duration": 80
+}
+
+{
+  "one" : 1,
+  "second" : "second"
+  "third" : [
+    {
+      "a" : "a",
+      "b" : "b"
+    } ,
+
+    {
+      "a" : "a",
+      "b" : "b"
+    }
+  ]
+}

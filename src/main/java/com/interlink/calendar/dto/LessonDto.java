@@ -1,6 +1,6 @@
 package com.interlink.calendar.dto;
 
-import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.interlink.calendar.enums.LessonType;
 
 public class LessonDto {
@@ -13,11 +13,12 @@ public class LessonDto {
 
     private final String classroom;
 
-    private final DateTime start;
+    private final EventDateTime start;
 
-    private final DateTime end;
+    private final EventDateTime end;
 
     public static class Builder {
+
         private LessonType type;
 
         private String teacherName;
@@ -26,11 +27,11 @@ public class LessonDto {
 
         private String classroom;
 
-        private DateTime start;
+        private EventDateTime start;
 
-        private DateTime end;
+        private EventDateTime end;
 
-        public Builder(String title, DateTime start, DateTime end) {
+        public Builder(String title, EventDateTime start, EventDateTime end) {
             this.title = title;
             this.start = start;
             this.end = end;
@@ -81,11 +82,11 @@ public class LessonDto {
         return classroom;
     }
 
-    public DateTime getStart() {
+    public EventDateTime getStart() {
         return start;
     }
 
-    public DateTime getEnd() {
+    public EventDateTime getEnd() {
         return end;
     }
 }
