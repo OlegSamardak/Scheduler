@@ -15,4 +15,7 @@ public class GroupValidationService {
         return groupRepository.checkExistence(group);
     }
 
+    public void saveNewGroup(Group group){
+        groupRepository.save(group);
+    }
 }
