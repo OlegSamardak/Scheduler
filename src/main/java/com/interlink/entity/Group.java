@@ -10,10 +10,12 @@ import javax.persistence.*;
 @Setter
 @Table(name = "group")
 public class Group {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id", nullable = false, unique = true, length = 11)
     private int id;
+
     private String name;
 }
 

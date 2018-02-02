@@ -15,8 +15,9 @@ public class EventService {
         lessonEvent.setStart(lessonDto.getStart());
         lessonEvent.setEnd(lessonDto.getEnd());
         lessonEvent.setSummary(lessonDto.getTeacherName());
-        lessonEvent.setDescription(lessonDto.getTitle() + "lessonDto in " + lessonDto.getClassroom()
-                + " classroom" + "\n Teacher : " + lessonDto.getTeacherName());
+        lessonEvent.setDescription(lessonDto.getTitle() + "lesson in " + lessonDto.getClassroom()
+                + " classroom" + "\n Teacher : " + lessonDto.getTeacherName()
+                + ". Lesson type : " + lessonDto.getType());
 
         return lessonEvent;
     }

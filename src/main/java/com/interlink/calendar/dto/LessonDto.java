@@ -1,12 +1,11 @@
 package com.interlink.calendar.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.interlink.calendar.enums.LessonType;
 
 public class LessonDto {
 
-    private final LessonType type;
+    private final String type;
 
     private final String teacherName;
 
@@ -20,7 +19,7 @@ public class LessonDto {
 
     public static class Builder {
 
-        private LessonType type;
+        private String type;
 
         private String teacherName;
 
@@ -38,7 +37,7 @@ public class LessonDto {
             this.end = end;
         }
 
-        public Builder type(LessonType val) {
+        public Builder type(String val) {
             type = val;
             return this;
         }
@@ -67,7 +66,7 @@ public class LessonDto {
         end = builder.end;
     }
 
-    public LessonType getType() {
+    public String getType() {
         return type;
     }
 
@@ -91,15 +90,5 @@ public class LessonDto {
         return end;
     }
 
-    @Override
-    public String toString() {
-        return "LessonDto{" +
-                "type=" + type +
-                ", teacherName='" + teacherName + '\'' +
-                ", title='" + title + '\'' +
-                ", classroom='" + classroom + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
-    }
+
 }

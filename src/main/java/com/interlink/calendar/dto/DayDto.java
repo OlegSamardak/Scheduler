@@ -3,7 +3,6 @@ package com.interlink.calendar.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.interlink.deserialization.DayDeserializer;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 

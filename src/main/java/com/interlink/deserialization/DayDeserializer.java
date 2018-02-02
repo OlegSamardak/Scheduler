@@ -81,7 +81,7 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
             )
                     .classroom(lessonNode.get("classroom").asText())
                     .teacher(lessonNode.get("teacher").asText())
-                    .type(LessonType.valueOf(lessonNode.get("lesson_type").asText()))
+                    .type(lessonNode.get("lesson_type").asText())
                     .build();
 
             lessons.add(lesson);

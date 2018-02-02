@@ -9,10 +9,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class Schedule {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id", nullable = false, unique = true, length = 11)
+    @Column(name = "id", nullable = false, unique = true, length = 11)
     private int id;
+
     @OneToOne
     private Group group;
     private String calendarId;
