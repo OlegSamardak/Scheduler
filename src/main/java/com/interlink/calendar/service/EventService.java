@@ -3,7 +3,9 @@ package com.interlink.calendar.service;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.interlink.calendar.dto.LessonDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EventService {
 
     public com.google.api.services.calendar.model.Event createLessonEvent

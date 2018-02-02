@@ -1,11 +1,8 @@
 package com.interlink.authorization.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.auth.oauth2.Credential;
 import com.interlink.authorization.service.GoogleAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import com.google.api.services.calendar.Calendar;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -32,6 +29,5 @@ public class GoogleAuthorizationController implements Serializable {
         Credential credential = authorizationService.oauth2Callback(code);
         HttpSession session = request.getSession();
         session.setAttribute("credential", credential);
-    
     }
 }

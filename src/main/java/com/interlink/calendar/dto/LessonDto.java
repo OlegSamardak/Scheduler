@@ -1,5 +1,6 @@
 package com.interlink.calendar.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.interlink.calendar.enums.LessonType;
 
@@ -88,5 +89,17 @@ public class LessonDto {
 
     public EventDateTime getEnd() {
         return end;
+    }
+
+    @Override
+    public String toString() {
+        return "LessonDto{" +
+                "type=" + type +
+                ", teacherName='" + teacherName + '\'' +
+                ", title='" + title + '\'' +
+                ", classroom='" + classroom + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
     }
 }

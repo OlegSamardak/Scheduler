@@ -2,12 +2,15 @@ package com.interlink.calendar.service;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
+import com.interlink.calendar.dto.IterimsWrapper;
 import com.interlink.calendar.exceptions.InvalidCountOfBreaks;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.*;
 import java.util.*;
 
+@Service
 public class DateService {
 
     private static final int LESSONS_COUNT = 8;
@@ -52,16 +55,17 @@ public class DateService {
         return lessonsInterim;
     }
 
-    public Map<EventDateTime, EventDateTime> getEventDateTimes
+    public List<IterimsWrapper> getEventDateTimes
             (Map<LocalDateTime, LocalDateTime> lessonsInterim) {
-        Map<EventDateTime, EventDateTime> eventsInterim = new TreeMap<>();
+        List<IterimsWrapper> iterims = new ArrayList<>();
 
         for (LocalDateTime startTime : lessonsInterim.keySet()) {
-            eventsInterim.put(
+            iterims.add(new IterimsWrapper(
                     getEventDateTime(startTime),
-                    getEventDateTime(lessonsInterim.get(startTime)));
+                    getEventDateTime(lessonsInterim.get(startTime))
+            ));
         }
 
-        return eventsInterim;
+        return iterims;
     }
 }
