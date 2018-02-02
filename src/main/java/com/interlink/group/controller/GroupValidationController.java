@@ -15,6 +15,6 @@ public class GroupValidationController {
     public boolean isGroupExists(@PathVariable String name){
         Group group = new Group();
         group.setName(name);
-        return groupValidationService.checkGroupExistence(group);
+        return groupValidationService.checkGroupExistence(name);
     }
 }
