@@ -11,7 +11,11 @@ public class GroupValidationService {
     @Autowired
     private GroupRepository groupRepository;
 
-    public boolean checkGroupExistence(Group group){
-        return groupRepository.existsByName(group);
+    public boolean checkGroupExistence(String group){
+        return groupRepository.checkExistence(group);
+    }
+
+    public void saveNewGroup(Group group){
+        groupRepository.save(group);
     }
 }
