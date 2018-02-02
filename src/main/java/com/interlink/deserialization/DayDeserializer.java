@@ -30,7 +30,7 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
         this(null);
     }
 
-    protected DayDeserializer(Class<?> vc) {
+    private DayDeserializer(Class<?> vc) {
         super(vc);
     }
 
@@ -87,6 +87,7 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
             lessons.add(lesson);
             index++;
         }
+        day.setGroupName(node.get("group").asText());
         day.setLessons(lessons);
 
         return day;

@@ -9,6 +9,8 @@ import java.util.List;
 @JsonDeserialize(using = DayDeserializer.class)
 public class DayDto {
 
+    private String groupName;
+
     private LocalDate localDate;
 
     private List<LessonDto> lessons;
@@ -27,6 +29,14 @@ public class DayDto {
 
     public void setLessons(List<LessonDto> lessons) {
         this.lessons = lessons;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+            this.groupName = groupName;
     }
 
     @Override
