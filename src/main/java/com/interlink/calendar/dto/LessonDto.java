@@ -90,5 +90,15 @@ public class LessonDto {
         return end;
     }
 
-
+    @Override
+    public String toString() {
+        return "LessonDto{" +
+                "type='" + type + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", title='" + title + '\'' +
+                ", classroom='" + classroom + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }

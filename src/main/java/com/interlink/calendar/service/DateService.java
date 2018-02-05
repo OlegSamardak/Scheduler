@@ -13,7 +13,7 @@ import java.util.*;
 @Service
 public class DateService {
 
-    private static final int LESSONS_COUNT = 8;
+    private static final int LESSONS_COUNT = 9;
 
     public static EventDateTime getEventDateTime(LocalDateTime localDateTime) {
         ZoneId zoneId = ZoneId.systemDefault();
