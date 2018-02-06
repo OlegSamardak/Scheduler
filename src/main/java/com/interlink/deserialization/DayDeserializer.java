@@ -15,7 +15,11 @@ import com.interlink.calendar.service.DateService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -45,7 +49,6 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
         int index = 0;
 
         for (JsonNode breakDuration : node.get("breaks")) {
-            System.out.println(breakDuration.get("selectedValue").asInt());
             breaks.add(breakDuration.get("selectedValue").asInt());
         }
 
@@ -70,7 +73,6 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
         }
 
         List<IterimsWrapper> iterims = dateService.getEventDateTimes(lessonsLocalDate);
-        System.out.println(iterims);
 
         for (JsonNode lessonNode : node.get("schedule_template").get(0).get(0)) {
             IterimsWrapper iterimsWrapper = iterims.get(index);
@@ -90,7 +92,6 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
         }
         day.setGroupName(node.get("group").asText());
         day.setLessons(lessons);
-        System.out.println(day.toString());
 
         return day;
     }

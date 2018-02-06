@@ -25,8 +25,8 @@ import java.security.GeneralSecurityException;
 @RestController
 public class ScheduleController {
 
-//    private final ServletContext context;
-private static final String APPLICATION_NAME = "";
+    //    private final ServletContext context;
+    private static final String APPLICATION_NAME = "";
     private static HttpTransport httpTransport;
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
@@ -41,25 +41,24 @@ private static final String APPLICATION_NAME = "";
 
     @Autowired
     public ScheduleController(ScheduleService scheduleService,
-                              GroupValidationService groupValidationService, ServletContext context) {
+                              GroupValidationService groupValidationService) {
         this.scheduleService = scheduleService;
         this.groupValidationService = groupValidationService;
-//        this.context = context;
     }
 
     @CrossOrigin
     @PostMapping(path = "/template", params = "code")
-    public void createSchedule(@RequestParam(value = "code") String code, @RequestBody DayDto day, HttpServletRequest request)
+    public void createSchedule(@RequestParam(value = "code") String code,
+                               @RequestBody DayDto day, HttpServletRequest request)
             throws IOException {
-        Group group = new Group ();
+        Group group = new Group();
         String message;
+
         com.google.api.services.calendar.model.Events eventList;
 
         Schedule schedule = new Schedule();
         Credential credential = authorizationService.oauth2Callback(code);
-        //HttpSession session = request.getSession();
-//        Credential credential = (Credential) context.getAttribute("credential");
-        System.out.println("template AT: "+credential.getAccessToken());
+        System.out.println("template AT: " + credential.getAccessToken());
         try {
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         } catch (GeneralSecurityException e) {

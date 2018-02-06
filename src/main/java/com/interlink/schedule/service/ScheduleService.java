@@ -53,7 +53,6 @@ public class ScheduleService {
                     .events().insert(
                     calendarId,
                     eventService.createLessonEvent(
-                            credential,
                             lesson
                     )
             ).execute();
