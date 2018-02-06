@@ -17,32 +17,30 @@ import java.io.Serializable;
 @RestController
 public class GoogleAuthorizationController implements Serializable {
 
-    private final ServletContext context;
-
-    @Autowired
     private GoogleAuthorizationService authorizationService;
 
     @Autowired
-    public GoogleAuthorizationController(ServletContext context) {
-        this.context = context;
+    public GoogleAuthorizationController(GoogleAuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
     }
 
     @CrossOrigin
     @RequestMapping(value = "/login/google", method = RequestMethod.GET)
     public String googleConnectionStatus(HttpServletRequest request) throws Exception {
-        return "{\"response\": \""+authorizationService.authorize()+"\"}";
+        return "{\"response\": \"" + authorizationService.authorize() + "\"}";
     }
 
     @CrossOrigin
     @RequestMapping(value = "/login/google", method = RequestMethod.GET, params = "code")
-    public ResponseEntity oauth2Callback(@RequestParam(value = "code") String code, HttpServletRequest request)
+    public ResponseEntity oauth2Callback(@RequestParam(value = "code") String code,
+                                         HttpServletRequest request)
             throws IOException {
         Credential credential = authorizationService.oauth2Callback(code);
 
-        System.out.println("Login AT: "+credential.getAccessToken());
         HttpSession session = request.getSession();
         session.setAttribute("credential", credential);
-        context.setAttribute("credential", credential);
+        request.getServletContext().setAttribute("credential", credential);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 }

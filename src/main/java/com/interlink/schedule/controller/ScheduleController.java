@@ -52,9 +52,6 @@ public class ScheduleController {
                                @RequestBody DayDto day, HttpServletRequest request)
             throws IOException {
         Group group = new Group();
-        String message;
-
-        com.google.api.services.calendar.model.Events eventList;
 
         Schedule schedule = new Schedule();
         Credential credential = authorizationService.oauth2Callback(code);
@@ -67,10 +64,6 @@ public class ScheduleController {
         client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME).build();
 
-        Calendar.Events events = client.events();
-        eventList = events.list("primary").execute();
-        message = eventList.getItems().toString();
-        System.out.println("My:" + eventList.getItems());
 
         String calendarId = scheduleService.getCalendarId(day, credential);
         scheduleService.addEvents(day, calendarId, credential);
