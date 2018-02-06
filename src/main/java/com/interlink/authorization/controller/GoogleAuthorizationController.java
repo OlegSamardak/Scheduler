@@ -38,6 +38,8 @@ public class GoogleAuthorizationController implements Serializable {
     public ResponseEntity oauth2Callback(@RequestParam(value = "code") String code, HttpServletRequest request)
             throws IOException {
         Credential credential = authorizationService.oauth2Callback(code);
+
+        System.out.println("Login AT: "+credential.getAccessToken());
         HttpSession session = request.getSession();
         session.setAttribute("credential", credential);
         context.setAttribute("credential", credential);

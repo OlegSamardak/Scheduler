@@ -1,6 +1,12 @@
 package com.interlink.schedule.controller;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.calendar.Calendar;
+import com.interlink.authorization.service.GoogleAuthorizationService;
 import com.interlink.calendar.dto.DayDto;
 import com.interlink.entity.Group;
 import com.interlink.entity.Schedule;
@@ -8,41 +14,65 @@ import com.interlink.group.service.GroupValidationService;
 import com.interlink.schedule.repository.ScheduleRepository;
 import com.interlink.schedule.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @RestController
 public class ScheduleController {
 
-    private final ServletContext context;
+//    private final ServletContext context;
+private static final String APPLICATION_NAME = "";
+    private static HttpTransport httpTransport;
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
 
     private final GroupValidationService groupValidationService;
+    private static com.google.api.services.calendar.Calendar client;
 
     private final ScheduleService scheduleService;
+
+    @Autowired
+    GoogleAuthorizationService authorizationService;
 
     @Autowired
     public ScheduleController(ScheduleService scheduleService,
                               GroupValidationService groupValidationService, ServletContext context) {
         this.scheduleService = scheduleService;
         this.groupValidationService = groupValidationService;
-        this.context = context;
+//        this.context = context;
     }
 
     @CrossOrigin
-    @PostMapping("/template")
-    public void createSchedule(@RequestBody DayDto day, HttpServletRequest request)
+    @PostMapping(path = "/template", params = "code")
+    public void createSchedule(@RequestParam(value = "code") String code, @RequestBody DayDto day, HttpServletRequest request)
             throws IOException {
-        Group group = new Group();
+        Group group = new Group ();
+        String message;
+        com.google.api.services.calendar.model.Events eventList;
+
         Schedule schedule = new Schedule();
+        Credential credential = authorizationService.oauth2Callback(code);
         //HttpSession session = request.getSession();
-        Credential credential = (Credential) context.getAttribute("credential");
+//        Credential credential = (Credential) context.getAttribute("credential");
+        System.out.println("template AT: "+credential.getAccessToken());
+        try {
+            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
+                .setApplicationName(APPLICATION_NAME).build();
+
+        Calendar.Events events = client.events();
+        eventList = events.list("primary").execute();
+        message = eventList.getItems().toString();
+        System.out.println("My:" + eventList.getItems());
+
         String calendarId = scheduleService.getCalendarId(day, credential);
         scheduleService.addEvents(day, calendarId, credential);
 
