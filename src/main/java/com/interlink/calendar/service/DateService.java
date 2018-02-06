@@ -37,7 +37,7 @@ public class DateService {
         Map<LocalDateTime, LocalDateTime> lessonsInterim = new TreeMap<>();
         List<LocalDateTime> lessonStarts = new ArrayList<>();
         List<LocalDateTime> lessonEnds = new ArrayList<>();
-        System.out.println(breaks);
+
         for (int i = 0; i <= LESSONS_COUNT - 1; i++) {
             LocalDateTime lessonStart;
             LocalDateTime lessonEnd;
@@ -46,10 +46,7 @@ public class DateService {
                 lessonEnd = lessonStart.plusMinutes(lessonMinutesDuration);
             } else {
                 lessonStart = lessonEnds.get(i - 1).plusMinutes(breaks.get(i - 1));
-                System.out.println(lessonStart);
-                System.out.println(breaks.get(i -1));
                 lessonEnd = lessonStart.plusMinutes(lessonMinutesDuration);
-                System.out.println(lessonEnd);
             }
             lessonStarts.add(lessonStart);
             lessonEnds.add(lessonEnd);

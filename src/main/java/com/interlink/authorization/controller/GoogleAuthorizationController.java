@@ -37,10 +37,6 @@ public class GoogleAuthorizationController implements Serializable {
             throws IOException {
         Credential credential = authorizationService.oauth2Callback(code);
 
-        HttpSession session = request.getSession();
-        session.setAttribute("credential", credential);
-        request.getServletContext().setAttribute("credential", credential);
-
         return new ResponseEntity(HttpStatus.OK);
     }
 }

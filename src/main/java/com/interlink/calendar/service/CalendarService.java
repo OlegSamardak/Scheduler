@@ -11,7 +11,7 @@ public class CalendarService {
         return new Calendar(
                 credential.getTransport(),
                 credential.getJsonFactory(),
-                credential.getRequestInitializer()
+                credential
         );
     }
 }

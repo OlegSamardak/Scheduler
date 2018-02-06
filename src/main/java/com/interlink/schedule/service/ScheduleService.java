@@ -18,27 +18,17 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class ScheduleService {
-    private static HttpTransport httpTransport;
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private final ScheduleRepository repository;
 
     private final EventService eventService;
 
     @Autowired
-    public ScheduleService( EventService eventService, ScheduleRepository repository) {
-        try {
-            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+    public ScheduleService(EventService eventService, ScheduleRepository repository) {
         this.eventService = eventService;
         this.repository = repository;
     }
@@ -46,8 +36,8 @@ public class ScheduleService {
     public void addEvents(DayDto dayDto, String calendarId, Credential credential)
             throws IOException {
         List<LessonDto> lessons = dayDto.getLessons();
-        com.google.api.services.calendar.Calendar calendarService = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName("").build();
+        com.google.api.services.calendar.Calendar calendarService
+                = CalendarService.createService(credential);
         for (LessonDto lesson : lessons) {
             calendarService
                     .events().insert(
@@ -61,18 +51,17 @@ public class ScheduleService {
 
     public String getCalendarId(DayDto dayDto, Credential credential)
             throws IOException {
-        com.google.api.services.calendar.Calendar calendarService = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
-                .setApplicationName("").build();
-        com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
-
+        com.google.api.services.calendar.Calendar calendarService
+                = CalendarService.createService(credential);
+        com.google.api.services.calendar.model.Calendar calendar
+                = new com.google.api.services.calendar.model.Calendar();
         calendar.setSummary("Schedule for " + dayDto.getGroupName());
-        calendar.setTimeZone("America/Los_Angeles");
-
+        calendar.setTimeZone(TimeZone.getDefault().getID());
 
         return calendarService.calendars().insert(calendar).execute().getId();
     }
 
-    public void saveSchedule(Schedule schedule){
+    public void saveSchedule(Schedule schedule) {
         repository.save(schedule);
     }
 }
