@@ -41,58 +41,58 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
     @Override
     public DayDto deserialize(JsonParser parser, DeserializationContext ctxt)
             throws IOException {
-        JsonNode node = parser.getCodec().readTree(parser);
-        List<LessonDto> lessons = new ArrayList<>();
-        List<Integer> breaks = new ArrayList<>();
-        Map<LocalDateTime, LocalDateTime> lessonsLocalDate = new TreeMap<>();
-        DayDto day = new DayDto();
-        int index = 0;
-
-        for (JsonNode breakDuration : node.get("breaks")) {
-            breaks.add(breakDuration.get("selectedValue").asInt());
-        }
-
-        LocalDate firstDay = new Timestamp(node.get("first_day").asLong())
-                .toLocalDateTime()
-                .toLocalDate();
-        day.setLocalDate(firstDay);
-        Integer lessonDuration = node.get("lesson_duration").get("value").asInt();
-
-        try {
-            lessonsLocalDate
-                    = dateService.getLessonInterim(
-                    LocalDateTime.of(
-                            day.getLocalDate(),
-                            LocalTime.parse(node.get("first_lesson").get("value").asText())
-                    ),
-                    breaks,
-                    lessonDuration
-            );
-        } catch (InvalidCountOfBreaks invalidCountOfBreaks) {
-            invalidCountOfBreaks.printStackTrace();
-        }
-
-        List<IterimsWrapper> iterims = dateService.getEventDateTimes(lessonsLocalDate);
-
-        for (JsonNode lessonNode : node.get("schedule_template").get(0).get(0)) {
-            IterimsWrapper iterimsWrapper = iterims.get(index);
-
-            LessonDto lesson
-                    = new LessonDto.Builder(
-                    lessonNode.get("subject").asText(),
-                    iterimsWrapper.getStart(),
-                    iterimsWrapper.getEnd()
-            )
-                    .classroom(lessonNode.get("lectureHall").asText())
-                    .teacher(lessonNode.get("teacher").asText())
-                    .type(lessonNode.get("lessonType").asText())
-                    .build();
-            lessons.add(lesson);
-            index++;
-        }
-        day.setGroupName(node.get("group").asText());
-        day.setLessons(lessons);
-
-        return day;
+//        JsonNode node = parser.getCodec().readTree(parser);
+//        List<LessonDto> lessons = new ArrayList<>();
+//        List<Integer> breaks = new ArrayList<>();
+//        Map<LocalDateTime, LocalDateTime> lessonsLocalDate = new TreeMap<>();
+//        DayDto day = new DayDto();
+//        int index = 0;
+//
+//        for (JsonNode breakDuration : node.get("breaks")) {
+//            breaks.add(breakDuration.get("selectedValue").asInt());
+//        }
+//
+//        LocalDate firstDay = new Timestamp(node.get("first_day").asLong())
+//                .toLocalDateTime()
+//                .toLocalDate();
+//        day.setLocalDate(firstDay);
+//        Integer lessonDuration = node.get("lesson_duration").get("value").asInt();
+//
+//        try {
+//            lessonsLocalDate
+//                    = dateService.getLessonInterim(
+//                    LocalDateTime.of(
+//                            day.getLocalDate(),
+//                            LocalTime.parse(node.get("first_lesson").get("value").asText())
+//                    ),
+//                    breaks,
+//                    lessonDuration
+//            );
+//        } catch (InvalidCountOfBreaks invalidCountOfBreaks) {
+//            invalidCountOfBreaks.printStackTrace();
+//        }
+//
+//        List<IterimsWrapper> iterims = dateService.getEventDateTimes(lessonsLocalDate);
+//
+//        for (JsonNode lessonNode : node.get("schedule_template").get(0).get(0)) {
+//            IterimsWrapper iterimsWrapper = iterims.get(index);
+//
+//            LessonDto lesson
+//                    = new LessonDto.Builder(
+//                    lessonNode.get("subject").asText(),
+//                    iterimsWrapper.getStart(),
+//                    iterimsWrapper.getEnd()
+//            )
+//                    .classroom(lessonNode.get("lectureHall").asText())
+//                    .teacher(lessonNode.get("teacher").asText())
+//                    .type(lessonNode.get("lessonType").asText())
+//                    .build();
+//            lessons.add(lesson);
+//            index++;
+//        }
+//        day.setLessons(lessons);
+//
+//        return day;
+        return null;
     }
 }

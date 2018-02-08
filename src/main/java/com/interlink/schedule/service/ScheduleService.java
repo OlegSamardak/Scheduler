@@ -3,6 +3,8 @@ package com.interlink.schedule.service;
 import com.google.api.client.auth.oauth2.Credential;
 import com.interlink.calendar.dto.DayDto;
 import com.interlink.calendar.dto.LessonDto;
+import com.interlink.calendar.dto.TemplateDto;
+import com.interlink.calendar.dto.WeekDto;
 import com.interlink.calendar.service.CalendarService;
 import com.interlink.calendar.service.EventService;
 import com.interlink.entity.Schedule;
@@ -27,29 +29,34 @@ public class ScheduleService {
         this.repository = repository;
     }
 
-    public void addEvents(DayDto dayDto, String calendarId, Credential credential)
+    public void addEvents(TemplateDto templateDto, String calendarId, Credential credential)
             throws IOException {
-        List<LessonDto> lessons = dayDto.getLessons();
+        List<WeekDto> weeks = templateDto.getWeeks();
         com.google.api.services.calendar.Calendar calendarService
                 = CalendarService.createService(credential);
-        for (LessonDto lesson : lessons) {
-            calendarService
-                    .events().insert(
-                    calendarId,
-                    eventService.createLessonEvent(
-                            lesson
-                    )
-            ).execute();
+
+        for (WeekDto week : weeks) {
+            for (DayDto day : week.getDays()) {
+                for (LessonDto lesson : day.getLessons()) {
+                    calendarService
+                            .events().insert(
+                            calendarId,
+                            eventService.createLessonEvent(
+                                    lesson
+                            )
+                    ).execute();
+                }
+            }
         }
     }
 
-    public String getCalendarId(DayDto dayDto, Credential credential)
+    public String getCalendarId(TemplateDto templateDto, Credential credential)
             throws IOException {
         com.google.api.services.calendar.Calendar calendarService
                 = CalendarService.createService(credential);
         com.google.api.services.calendar.model.Calendar calendar
                 = new com.google.api.services.calendar.model.Calendar();
-        calendar.setSummary("Schedule for " + dayDto.getGroupName());
+        calendar.setSummary("Schedule for " + templateDto.getGroupName());
         calendar.setTimeZone(TimeZone.getDefault().getID());
 
         return calendarService.calendars().insert(calendar).execute().getId();

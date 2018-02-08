@@ -3,6 +3,7 @@ package com.interlink.schedule.controller;
 import com.google.api.client.auth.oauth2.Credential;
 import com.interlink.authorization.service.GoogleAuthorizationService;
 import com.interlink.calendar.dto.DayDto;
+import com.interlink.calendar.dto.TemplateDto;
 import com.interlink.entity.Group;
 import com.interlink.entity.Schedule;
 import com.interlink.group.service.GroupValidationService;
@@ -33,17 +34,16 @@ public class ScheduleController {
     @CrossOrigin
     @PostMapping(path = "/template", params = "code")
     public void createSchedule(@RequestParam(value = "code") String code,
-                               @RequestBody DayDto day)
+                               @RequestBody TemplateDto template)
             throws IOException {
         Group group = new Group();
 
         Schedule schedule = new Schedule();
         Credential credential = authorizationService.oauth2Callback(code);
+        String calendarId = scheduleService.getCalendarId(template, credential);
+        scheduleService.addEvents(template, calendarId, credential);
 
-        String calendarId = scheduleService.getCalendarId(day, credential);
-        scheduleService.addEvents(day, calendarId, credential);
-
-        group.setName(day.getGroupName());
+        group.setName(template.getGroupName());
         schedule.setGroup(group);
         schedule.setCalendarId(calendarId);
 
