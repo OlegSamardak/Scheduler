@@ -56,14 +56,14 @@ public class DayDeserializer extends StdDeserializer<DayDto> {
                 .toLocalDateTime()
                 .toLocalDate();
         day.setLocalDate(firstDay);
-        Integer lessonDuration = node.get("lesson_duration").get("value").asInt();
+        Integer lessonDuration = node.get("lesson_duration").asInt();
 
         try {
             lessonsLocalDate
                     = dateService.getLessonInterim(
                     LocalDateTime.of(
                             day.getLocalDate(),
-                            LocalTime.parse(node.get("first_lesson").get("value").asText())
+                            LocalTime.parse(node.get("first_lesson").asText())
                     ),
                     breaks,
                     lessonDuration
