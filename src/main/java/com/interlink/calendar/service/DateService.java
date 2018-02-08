@@ -69,4 +69,14 @@ public class DateService {
 
         return iterims;
     }
+
+    public List<LocalDate> getDays(LocalDate firstDay) {
+        List<LocalDate> upperWeekDays = new ArrayList<>();
+
+        for (int i = 0; i <= 6; i++) {
+            upperWeekDays.add(firstDay.plusDays(i));
+        }
+
+        return upperWeekDays;
+    }
 }

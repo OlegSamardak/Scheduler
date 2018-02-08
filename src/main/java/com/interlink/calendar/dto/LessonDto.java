@@ -5,7 +5,7 @@ import com.interlink.calendar.enums.LessonType;
 
 public class LessonDto {
 
-    private final String type;
+    private final LessonType type;
 
     private final String teacherName;
 
@@ -19,7 +19,7 @@ public class LessonDto {
 
     public static class Builder {
 
-        private String type;
+        private LessonType type;
 
         private String teacherName;
 
@@ -37,7 +37,7 @@ public class LessonDto {
             this.end = end;
         }
 
-        public Builder type(String val) {
+        public Builder type(LessonType val) {
             type = val;
             return this;
         }
@@ -66,7 +66,7 @@ public class LessonDto {
         end = builder.end;
     }
 
-    public String getType() {
+    public LessonType getType() {
         return type;
     }
 
@@ -88,17 +88,5 @@ public class LessonDto {
 
     public EventDateTime getEnd() {
         return end;
-    }
-
-    @Override
-    public String toString() {
-        return "LessonDto{" +
-                "type='" + type + '\'' +
-                ", teacherName='" + teacherName + '\'' +
-                ", title='" + title + '\'' +
-                ", classroom='" + classroom + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
     }
 }
