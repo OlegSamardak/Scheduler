@@ -42,6 +42,7 @@ public class TemplateDeserializer extends StdDeserializer<TemplateDto> {
         }
         template.setWeeks(weeks);
         template.setGroupName(node.get("group").asText());
+        
         return template;
     }
 }

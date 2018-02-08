@@ -42,7 +42,8 @@ public class ScheduleService {
                             .events().insert(
                             calendarId,
                             eventService.createLessonEvent(
-                                    lesson
+                                    lesson,
+                                    templateDto.getWeeksCount()
                             )
                     ).execute();
                 }
