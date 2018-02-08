@@ -28,12 +28,4 @@ public class IterimsWrapper {
     public void setEnd(EventDateTime end) {
         this.end = end;
     }
-
-    @Override
-    public String toString() {
-        return "IterimsWrapper{" +
-                "start=" + start +
-                ", end=" + end +
-                '}';
-    }
 }

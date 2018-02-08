@@ -5,6 +5,7 @@ import com.interlink.calendar.dto.DayDto;
 import com.interlink.calendar.dto.IterimsWrapper;
 import com.interlink.calendar.dto.LessonDto;
 import com.interlink.calendar.dto.WeekDto;
+import com.interlink.calendar.enums.LessonType;
 import com.interlink.calendar.enums.WeekType;
 import com.interlink.calendar.exceptions.InvalidCountOfBreaks;
 import com.interlink.calendar.service.DateService;
@@ -92,12 +93,27 @@ public class DeserializationService {
             )
                     .classroom(lessonNode.get("lectureHall").asText())
                     .teacher(lessonNode.get("teacher").asText())
-                    .type(lessonNode.get("lessonType").asText())
+                    .type(getLessonType(lessonNode.get("lessonType").asText()))
                     .build();
             lessons.add(lesson);
             index++;
         }
 
         return lessons;
+    }
+
+    private LessonType getLessonType(String lessonType) {
+        switch (lessonType) {
+            case "Лекція":
+                return LessonType.LECTION;
+            case "Практичне заняття":
+                return LessonType.PRACTICE;
+            case "Семінар":
+                return LessonType.SEMINAR;
+            case "Лабораторна робота":
+                return LessonType.LABORATORY_WORK;
+            default:
+                return LessonType.INDEPENDENT_WORK;
+        }
     }
 }

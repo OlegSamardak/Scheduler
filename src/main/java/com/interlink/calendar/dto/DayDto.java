@@ -13,11 +13,4 @@ public class DayDto {
     public void setLessons(List<LessonDto> lessons) {
         this.lessons = lessons;
     }
-
-    @Override
-    public String toString() {
-        return "DayDto{" +
-                ", lessons=" + lessons +
-                '}';
-    }
 }

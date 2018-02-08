@@ -37,13 +37,4 @@ public class TemplateDto {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-
-    @Override
-    public String toString() {
-        return "TemplateDto{" +
-                "groupName='" + groupName + '\'' +
-                ", weeksCount=" + weeksCount +
-                ", weeks=" + weeks +
-                '}';
-    }
 }

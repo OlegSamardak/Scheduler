@@ -75,7 +75,7 @@ public class ScheduleService {
                 = CalendarService.createService(credential);
         com.google.api.services.calendar.model.Calendar calendar
                 = new com.google.api.services.calendar.model.Calendar();
-        calendar.setSummary("Schedule for " + templateDto.getGroupName());
+        calendar.setSummary("Розклад для " + templateDto.getGroupName());
         calendar.setTimeZone(TimeZone.getDefault().getID());
 
         return calendarService.calendars().insert(calendar).execute().getId();
