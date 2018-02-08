@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 
 @Service
@@ -38,14 +39,16 @@ public class ScheduleService {
         for (WeekDto week : weeks) {
             for (DayDto day : week.getDays()) {
                 for (LessonDto lesson : day.getLessons()) {
-                    calendarService
-                            .events().insert(
-                            calendarId,
-                            eventService.createLessonEvent(
-                                    lesson,
-                                    templateDto.getWeeksCount()
-                            )
-                    ).execute();
+                    if (!Objects.equals(lesson.getTitle(), "none")) {
+                        calendarService
+                                .events().insert(
+                                calendarId,
+                                eventService.createLessonEvent(
+                                        lesson,
+                                        templateDto.getWeeksCount()
+                                )
+                        ).execute();
+                    }
                 }
             }
         }
