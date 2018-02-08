@@ -11,10 +11,11 @@ public class GroupValidationController {
     private GroupValidationService groupValidationService;
 
     @CrossOrigin
-    @GetMapping(path = "/groups/{name}")
-    public boolean isGroupExists(@PathVariable String name){
+    @PostMapping(path = "/groups")
+    public boolean isGroupExists(@RequestBody String name){
         Group group = new Group();
         group.setName(name);
+        System.out.println(name);
         return groupValidationService.checkGroupExistence(name);
     }
 }
