@@ -5,6 +5,7 @@ import com.interlink.calendar.dto.DayDto;
 import com.interlink.calendar.dto.LessonDto;
 import com.interlink.calendar.dto.TemplateDto;
 import com.interlink.calendar.dto.WeekDto;
+import com.interlink.calendar.enums.WeekType;
 import com.interlink.calendar.service.CalendarService;
 import com.interlink.calendar.service.EventService;
 import com.interlink.entity.Schedule;
@@ -35,7 +36,6 @@ public class ScheduleService {
         List<WeekDto> weeks = templateDto.getWeeks();
         com.google.api.services.calendar.Calendar calendarService
                 = CalendarService.createService(credential);
-
         for (WeekDto week : weeks) {
             for (DayDto day : week.getDays()) {
                 for (LessonDto lesson : day.getLessons()) {
@@ -45,13 +45,28 @@ public class ScheduleService {
                                 calendarId,
                                 eventService.createLessonEvent(
                                         lesson,
-                                        templateDto.getWeeksCount()
+                                        getReccurenceTimeByWeek(templateDto, week)
                                 )
                         ).execute();
                     }
                 }
             }
         }
+    }
+
+    private int getReccurenceTimeByWeek(TemplateDto templateDto, WeekDto weekDto) {
+        int reccurenceTime;
+        if (templateDto.getWeeksCount() % 2 == 0) {
+            reccurenceTime = templateDto.getWeeksCount() / 2;
+        } else {
+            if (weekDto.getWeekType().equals(WeekType.UPPER)) {
+                reccurenceTime = templateDto.getWeeksCount() / 2;
+            } else {
+                reccurenceTime = templateDto.getWeeksCount() / 2 + 1;
+            }
+        }
+
+        return reccurenceTime;
     }
 
     public String getCalendarId(TemplateDto templateDto, Credential credential)

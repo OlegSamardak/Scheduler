@@ -32,17 +32,16 @@ public class TemplateDeserializer extends StdDeserializer<TemplateDto> {
         TemplateDto template = new TemplateDto();
         template.setWeeksCount(node.get("number_of_weeks").get("value").asInt());
         List<WeekDto> weeks = new ArrayList<>();
-        WeekDto upperWeek;
         try {
-            upperWeek = deserializationService.getWeek(0, node);
-            weeks.add(upperWeek);
-
+            for(int i = 0; i <= 1; i++) {
+                weeks.add(deserializationService.getWeek(i, node));
+            }
         } catch (InvalidCountOfBreaks invalidCountOfBreaks) {
             invalidCountOfBreaks.printStackTrace();
         }
         template.setWeeks(weeks);
         template.setGroupName(node.get("group").asText());
-        
+
         return template;
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public class WeekDto {
 
+    private WeekType weekType;
+
     private List<DayDto> days;
 
     public List<DayDto> getDays() {
@@ -18,10 +20,11 @@ public class WeekDto {
         this.days = days;
     }
 
-    @Override
-    public String toString() {
-        return "WeekDto{" +
-                "days=" + days +
-                '}';
+    public WeekType getWeekType() {
+        return weekType;
+    }
+
+    public void setWeekType(WeekType weekType) {
+        this.weekType = weekType;
     }
 }

@@ -5,6 +5,7 @@ import com.interlink.calendar.dto.DayDto;
 import com.interlink.calendar.dto.IterimsWrapper;
 import com.interlink.calendar.dto.LessonDto;
 import com.interlink.calendar.dto.WeekDto;
+import com.interlink.calendar.enums.WeekType;
 import com.interlink.calendar.exceptions.InvalidCountOfBreaks;
 import com.interlink.calendar.service.DateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class DeserializationService {
         for (JsonNode breakDuration : node.get("breaks")) {
             breaks.add(breakDuration.get("selectedValue").asInt());
         }
+
         return breaks;
     }
 
@@ -44,8 +46,14 @@ public class DeserializationService {
             DayDto day = new DayDto();
             day.setLessons(getLessons(node, weekPosition, i));
             weekDays.add(day);
+            if (weekPosition == 0) {
+                week.setWeekType(WeekType.UPPER);
+            } else {
+                week.setWeekType(WeekType.LOWER);
+            }
         }
         week.setDays(weekDays);
+
         return week;
     }
 
@@ -56,9 +64,18 @@ public class DeserializationService {
         LocalDate firstDay = new Timestamp(node.get("first_day")
                 .asLong()).toLocalDateTime().toLocalDate();
         List<LocalDate> upperWeek = dateService.getDays(firstDay);
+        List<LocalDate> lowerWeek = dateService.getDays(
+                upperWeek.get(0).plusWeeks(1)
+        );
+        List<LocalDate> currentWeek;
+        if (weekIndex == 0) {
+            currentWeek = upperWeek;
+        } else {
+            currentWeek = lowerWeek;
+        }
         lessonsLocalDate = dateService.getLessonInterim(
                 LocalDateTime.of(
-                        upperWeek.get(dayIndex),
+                        currentWeek.get(dayIndex),
                         LocalTime.parse(node.get("first_lesson").asText())
                 ),
                 getBreaks(node),
@@ -80,6 +97,7 @@ public class DeserializationService {
             lessons.add(lesson);
             index++;
         }
+
         return lessons;
     }
 }
