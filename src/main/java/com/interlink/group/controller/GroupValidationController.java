@@ -15,7 +15,6 @@ public class GroupValidationController {
     public boolean isGroupExists(@RequestBody String name){
         Group group = new Group();
         group.setName(name);
-        System.out.println(name);
         return groupValidationService.checkGroupExistence(name);
     }
 }

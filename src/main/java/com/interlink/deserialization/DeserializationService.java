@@ -9,6 +9,7 @@ import com.interlink.calendar.enums.LessonType;
 import com.interlink.calendar.enums.WeekType;
 import com.interlink.calendar.exceptions.InvalidCountOfBreaks;
 import com.interlink.calendar.service.DateService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,9 +59,8 @@ public class DeserializationService {
         return week;
     }
 
-    private List<LessonDto> getLessons(JsonNode node, int weekIndex, int dayIndex)
+    private List<IterimsWrapper> getIterims(JsonNode node, int weekIndex, int dayIndex)
             throws InvalidCountOfBreaks {
-        List<LessonDto> lessons = new ArrayList<>();
         Map<LocalDateTime, LocalDateTime> lessonsLocalDate;
         LocalDate firstDay = new Timestamp(node.get("first_day")
                 .asLong()).toLocalDateTime().toLocalDate();
@@ -68,21 +68,17 @@ public class DeserializationService {
         List<LocalDate> lowerWeek = dateService.getDays(
                 upperWeek.get(0).plusWeeks(1)
         );
-        List<LocalDate> currentWeek;
-        if (weekIndex == 0) {
-            currentWeek = upperWeek;
-        } else {
-            currentWeek = lowerWeek;
-        }
-        lessonsLocalDate = dateService.getLessonInterim(
-                LocalDateTime.of(
-                        currentWeek.get(dayIndex),
-                        LocalTime.parse(node.get("first_lesson").asText())
-                ),
-                getBreaks(node),
-                node.get("lesson_duration").asInt()
-        );
-        List<IterimsWrapper> iterims = dateService.getEventDateTimes(lessonsLocalDate);
+        List<LocalDate> currentWeek = getCurrentWeekByIndex(weekIndex, upperWeek, lowerWeek);
+        lessonsLocalDate = getLessonsIntervals(node, currentWeek, dayIndex);
+
+        return dateService.getEventDateTimes(lessonsLocalDate);
+    }
+
+    private List<LessonDto> getLessons(JsonNode node, int weekIndex, int dayIndex)
+            throws InvalidCountOfBreaks {
+        List<LessonDto> lessons = new ArrayList<>();
+        List<IterimsWrapper> iterims = getIterims(node, weekIndex, dayIndex);
+
         int index = 0;
         for (JsonNode lessonNode : node.get("schedule_template").get(weekIndex).get(dayIndex)) {
             IterimsWrapper iterimsWrapper = iterims.get(index);
@@ -100,6 +96,31 @@ public class DeserializationService {
         }
 
         return lessons;
+    }
+
+    private List<LocalDate> getCurrentWeekByIndex
+            (int weekIndex, List<LocalDate> upperWeek, List<LocalDate> lowerWeek) {
+        List<LocalDate> currentWeek;
+        if (weekIndex == 0) {
+            currentWeek = upperWeek;
+        } else {
+            currentWeek = lowerWeek;
+        }
+
+        return currentWeek;
+    }
+
+    private Map<LocalDateTime, LocalDateTime> getLessonsIntervals
+            (JsonNode node, List<LocalDate> currentWeek, int dayIndex)
+            throws InvalidCountOfBreaks {
+        return dateService.getLessonInterim(
+                LocalDateTime.of(
+                        currentWeek.get(dayIndex),
+                        LocalTime.parse(node.get("first_lesson").asText())
+                ),
+                getBreaks(node),
+                node.get("lesson_duration").asInt()
+        );
     }
 
     private LessonType getLessonType(String lessonType) {

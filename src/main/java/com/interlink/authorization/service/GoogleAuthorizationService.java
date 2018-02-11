@@ -19,16 +19,23 @@ import java.util.*;
 
 @Service
 public class GoogleAuthorizationService {
+
     private final static Log LOGGER = LogFactory.getLog(GoogleAuthorizationService.class);
+
     private static HttpTransport HTTP_TRANSPORT;
+
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
     private GoogleClientSecrets clientSecrets;
+
     private GoogleAuthorizationCodeFlow flow;
 
     @Value("${google.client.client-id}")
     private String clientId;
+
     @Value("${google.client.client-secret}")
     private String clientSecret;
+
     @Value("${google.client.redirectUri}")
     private String redirectURI;
 
